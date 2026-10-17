@@ -1,0 +1,741 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "ujOeHwdFcAef"
+   },
+   "source": [
+    "# NB07: Consolidation â€” Conditionals and Loops\n",
+    "\n",
+    "## Programming Fundamentals\n",
+    "\n",
+    "## L.EIC/2026-27\n",
+    "\n",
+    "#### Ricardo Cruz <rpcruz@fe.up.pt>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "AZhnM6Jy8c1r"
+   },
+   "source": [
+    "> \"The only way to learn a new programming language is by writing programs in it.\"\n",
+    "\n",
+    "Brian W. Kernighan and Dennis M. Ritchie"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "ihtYlKNxHddm"
+   },
+   "source": [
+    "## Goals\n",
+    "\n",
+    "By the end of this class, the student should be able to:\n",
+    "\n",
+    "- Predict the output of short programs with conditionals and loops, by tracing their flow of execution\n",
+    "\n",
+    "- Recognise the most common loop patterns (counter, accumulator, search) and use them in new problems\n",
+    "\n",
+    "- Spot and fix some of the most common mistakes with conditionals and loops\n",
+    "\n",
+    "- Write small functions that combine conditionals and loops, and test them"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "Tr8hzUjEcPVJ"
+   },
+   "source": [
+    "# 1 Conditionals\n",
+    "\n",
+    "*(NB03)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "2tRKJC06DPdR"
+   },
+   "source": [
+    "### Q1. Is it the weekend?\n",
+    "\n",
+    "What is printed?\n",
+    "\n",
+    "- **A)** `Weekend!`\n",
+    "- **B)** `Work day`\n",
+    "- **C)** An error\n",
+    "- **D)** Nothing"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "O9YrxPbCkhdV"
+   },
+   "outputs": [],
+   "source": [
+    "day = \"Monday\"\n",
+    "if day == \"Saturday\" or \"Sunday\":\n",
+    "    print(\"Weekend!\")\n",
+    "else:\n",
+    "    print(\"Work day\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "ipy2eBI2Y1rz"
+   },
+   "source": [
+    "### Q2. The order of the branches\n",
+    "\n",
+    "What is printed?\n",
+    "\n",
+    "- **A)** `pass`\n",
+    "- **B)** `excellent`\n",
+    "- **C)** `fail`\n",
+    "- **D)** `pass` and `excellent`\n",
+    "\n",
+    "Then: for which grades is `\"excellent\"` returned? Fix the function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "w27jkooEKqaz"
+   },
+   "outputs": [],
+   "source": [
+    "def classify(grade):\n",
+    "    if grade >= 10:\n",
+    "        return \"pass\"\n",
+    "    elif grade >= 18:\n",
+    "        return \"excellent\"\n",
+    "    else:\n",
+    "        return \"fail\"\n",
+    "\n",
+    "print(classify(19))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "wJ7QFMPd3W2X"
+   },
+   "source": [
+    "### Q3. `if` + `if`, or `if` + `elif`?\n",
+    "\n",
+    "What is printed?\n",
+    "\n",
+    "- **A)** `A`\n",
+    "- **B)** `A` and `B`\n",
+    "- **C)** `A` and `C`\n",
+    "- **D)** `A`, `B` and `C`\n",
+    "\n",
+    "Then: what is printed if the second `if` is replaced by `elif`?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "yygNdemkvdaj"
+   },
+   "outputs": [],
+   "source": [
+    "x = 15\n",
+    "if x > 10:\n",
+    "    print(\"A\")\n",
+    "if x > 5:\n",
+    "    print(\"B\")\n",
+    "else:\n",
+    "    print(\"C\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "gwb2Mjpvwh09"
+   },
+   "source": [
+    "### Q4. Who cannot get in?\n",
+    "\n",
+    "A person can enter if `age >= 18 and has_id`. Which condition is equivalent to `not (age >= 18 and has_id)`?\n",
+    "\n",
+    "- **A)** `age < 18 and not has_id`\n",
+    "- **B)** `age < 18 or not has_id`\n",
+    "- **C)** `age <= 18 or not has_id`\n",
+    "- **D)** `not age >= 18 and has_id`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "mmM30DOXfO4W"
+   },
+   "source": [
+    "### Exercise 1. Leap years\n",
+    "\n",
+    "A year is a leap year if it is divisible by 4, **except** years divisible by 100, which are leap years only if they are also divisible by 400.\n",
+    "\n",
+    "| year | leap? | why |\n",
+    "|:-----|:------|:----|\n",
+    "| 2024 | yes | divisible by 4 |\n",
+    "| 2023 | no  | not divisible by 4 |\n",
+    "| 1900 | no  | divisible by 100, but not by 400 |\n",
+    "| 2000 | yes | divisible by 400 |\n",
+    "\n",
+    "Use *incremental development* (NB05): write the tests first, then a skeleton that runs, then the real code.\n",
+    "Can you write it as a single Boolean expression?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "UDlWuX8yy6Sk"
+   },
+   "outputs": [],
+   "source": [
+    "def is_leap(year):\n",
+    "    pass\n",
+    "\n",
+    "print(is_leap(2024) == True)\n",
+    "print(is_leap(2023) == False)\n",
+    "print(is_leap(1900) == False)\n",
+    "print(is_leap(2000) == True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "hj4YjZ8OvIia"
+   },
+   "source": [
+    "# 2 Loops\n",
+    "\n",
+    "*(NB03 and NB04)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "8OG5A2ZnpsoK"
+   },
+   "source": [
+    "### Q6. What does `range` produce?\n",
+    "\n",
+    "What does each line print? (`list()` turns the range into a list so that we can see all its values.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "qzi4vCK4A4FG"
+   },
+   "outputs": [],
+   "source": [
+    "print(list(range(5)))\n",
+    "print(list(range(2, 10, 3)))\n",
+    "print(list(range(10, 0, -3)))\n",
+    "print(list(range(10, 0)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "GbBlaXkDSIuG"
+   },
+   "source": [
+    "### Q7. Trace it\n",
+    "\n",
+    "What is printed? Fill in a **trace table** with the values of `i` and `total` at the end of each iteration.\n",
+    "\n",
+    "- **A)** `15`\n",
+    "- **B)** `9`\n",
+    "- **C)** `6`\n",
+    "- **D)** `0`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "IWgIprVFIV4B"
+   },
+   "outputs": [],
+   "source": [
+    "total = 0\n",
+    "for i in range(1, 6):\n",
+    "    if i % 2 == 0:\n",
+    "        continue\n",
+    "    total += i\n",
+    "print(total)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "LFFQCHD6R26q"
+   },
+   "source": [
+    "### Q8. Find the bug\n",
+    "\n",
+    "We want to compute `1 + 2 + 3 + 4`. What is printed? How do we fix it?\n",
+    "\n",
+    "- **A)** `10`\n",
+    "- **B)** `4`\n",
+    "- **C)** `0`\n",
+    "- **D)** An error"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "I60ihBeoePW3"
+   },
+   "outputs": [],
+   "source": [
+    "for i in range(1, 5):\n",
+    "    total = 0\n",
+    "    total = total + i\n",
+    "print(total)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "jSOi27n7yE9Z"
+   },
+   "source": [
+    "### Q9. When does it stop?\n",
+    "\n",
+    "What is printed?\n",
+    "\n",
+    "- **A)** `1 3`\n",
+    "- **B)** `0 3`\n",
+    "- **C)** `-2 4`\n",
+    "- **D)** `1 4`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "kAFvmtSbIBbu"
+   },
+   "outputs": [],
+   "source": [
+    "n = 10\n",
+    "steps = 0\n",
+    "while n > 0:\n",
+    "    n = n - 3\n",
+    "    steps += 1\n",
+    "print(n, steps)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "MFd9W8gqcWqi"
+   },
+   "source": [
+    "### Q10. Which loops never stop? *(extra)*\n",
+    "\n",
+    "(a)\n",
+    "```python\n",
+    "i = 0\n",
+    "while i < 10:\n",
+    "    print(i)\n",
+    "```\n",
+    "\n",
+    "(b)\n",
+    "```python\n",
+    "i = 10\n",
+    "while i != 0:\n",
+    "    i = i - 3\n",
+    "```\n",
+    "\n",
+    "(c)\n",
+    "```python\n",
+    "i = 0\n",
+    "while i < 10:\n",
+    "    i = i + 3\n",
+    "```\n",
+    "\n",
+    "(d)\n",
+    "```python\n",
+    "i = 1\n",
+    "while True:\n",
+    "    i = i * 2\n",
+    "    if i > 100:\n",
+    "        break\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "A4Yqj4JRfdQA"
+   },
+   "source": [
+    "### Q11. Nested loops\n",
+    "\n",
+    "Draw the output.\n",
+    "\n",
+    "Then: (1) change the code so that the triangle is upside down; (2) can you remove the inner loop?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "e6NXf1e1CvI5"
+   },
+   "outputs": [],
+   "source": [
+    "for i in range(1, 5):\n",
+    "    for j in range(i):\n",
+    "        print(\"*\", end=\"\")\n",
+    "    print()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "qiGogkdmtsVr"
+   },
+   "source": [
+    "### Q12. `break` in nested loops\n",
+    "\n",
+    "How many lines are printed?\n",
+    "\n",
+    "- **A)** 0\n",
+    "- **B)** 3\n",
+    "- **C)** 6\n",
+    "- **D)** 9\n",
+    "\n",
+    "Then: what changes if `break` is replaced by `continue`?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "FlvbpaTIlD5g"
+   },
+   "outputs": [],
+   "source": [
+    "for i in range(3):\n",
+    "    for j in range(3):\n",
+    "        if j == i:\n",
+    "            break\n",
+    "        print(i, j)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "YAEZyFQ8vZRN"
+   },
+   "source": [
+    "### Q13. `for` or `while`? *(extra)*\n",
+    "\n",
+    "1. Rewrite the loop below as a `while` loop.\n",
+    "\n",
+    "2. Which of these problems **need** a `while` loop?\n",
+    "   - (a) sum the numbers from 1 to `n`;\n",
+    "   - (b) count the digits of a positive integer `n`, using `//` and `%`;\n",
+    "   - (c) count the steps until a Collatz sequence reaches 1;\n",
+    "   - (d) print a 10 Ã— 10 multiplication table."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "zvdieTpkf01P"
+   },
+   "outputs": [],
+   "source": [
+    "for i in range(10, 0, -2):\n",
+    "    print(i, end=\" \")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "rpsCjBq78Hp7"
+   },
+   "source": [
+    "## Loop patterns\n",
+    "\n",
+    "Most loops you will write (in tests too!) follow one of these patterns, or combine a few of them.\n",
+    "\n",
+    "| Pattern | It answers... | Before the loop | Inside the loop | After the loop |\n",
+    "|:--|:--|:--|:--|:--|\n",
+    "| **Counter** | *How many* elements satisfy a condition? | `count = 0` | `if cond: count += 1` | use `count` |\n",
+    "| **Accumulator** | What is the sum / product / text built from all elements? | `acc = 0` (or `1`, or `\"\"`) | `acc = acc + x` | use `acc` |\n",
+    "| **Search** | *Is there* an element such that...? *Where*? | | `if cond: return x` | `return -1` (or `False`) |\n",
+    "| **All** | Do *all* elements satisfy a condition? | | `if not cond: return False` | `return True` |\n",
+    "| **Best so far** | What is the largest / smallest / longest...? | `best = first element` | `if x > best: best = x` | use `best` |\n",
+    "\n",
+    "> Inside the loop you can only conclude *\"found it!\"* or *\"found a counterexample!\"*.\n",
+    "> Only **after** the loop ends can you conclude *\"not found\"* or *\"all of them\"*."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "twaxDFmFaqfy"
+   },
+   "source": [
+    "### Q14. A prime suspect\n",
+    "\n",
+    "What is printed?\n",
+    "\n",
+    "- **A)** `True False True`\n",
+    "- **B)** `True True None`\n",
+    "- **C)** `True True True`\n",
+    "- **D)** An error\n",
+    "\n",
+    "Then: find the two bugs and fix them."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "cbsoKGUOS2yu"
+   },
+   "outputs": [],
+   "source": [
+    "def is_prime(n):\n",
+    "    for d in range(2, n):\n",
+    "        if n % d == 0:\n",
+    "            return False\n",
+    "        else:\n",
+    "            return True\n",
+    "\n",
+    "print(is_prime(7), is_prime(9), is_prime(2))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "9jSNcZ3MTYiG"
+   },
+   "source": [
+    "Once `is_prime` is fixed, this should print `2 3 5 7 11 13 17 19 23 29`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "FZXZK3QQobiw"
+   },
+   "outputs": [],
+   "source": [
+    "for n in range(1, 30):\n",
+    "    if is_prime(n):\n",
+    "        print(n, end=\" \")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "gZIMMQEaXUFH"
+   },
+   "source": [
+    "### Exercise 2. Sum of digits\n",
+    "\n",
+    "Write `digit_sum(n)`, which returns the sum of the digits of a non-negative integer `n`,\n",
+    "using only arithmetic (`//` and `%`, as in *Counting digits*, NB04).\n",
+    "\n",
+    "Then use it to write `digital_root(n)`, which keeps adding the digits until a single digit is left:\n",
+    "2026 â†’ 10 â†’ 1."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "OeTpeqTmT8Ex"
+   },
+   "outputs": [],
+   "source": [
+    "def digit_sum(n):\n",
+    "    \"\"\"Return the sum of the digits of n (n >= 0).\"\"\"\n",
+    "    return 0    # skeleton\n",
+    "\n",
+    "def digital_root(n):\n",
+    "    \"\"\"Sum the digits of n repeatedly, until a single digit is left.\"\"\"\n",
+    "    return 0    # skeleton\n",
+    "\n",
+    "print(digit_sum(0) == 0)\n",
+    "print(digit_sum(7) == 7)\n",
+    "print(digit_sum(2026) == 10)\n",
+    "print(digital_root(2026) == 1)\n",
+    "print(digital_root(99999) == 9)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "DQVMNejpUsJa"
+   },
+   "source": [
+    "# 3 Loops and strings\n",
+    "\n",
+    "*(NB06)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "dqPQPsGCCh3m"
+   },
+   "source": [
+    "### Exercise 3. Counting vowels\n",
+    "\n",
+    "Write `count_vowels(text)`, which returns how many vowels (`a`, `e`, `i`, `o`, `u`, in lower or upper case) there are in `text`.\n",
+    "\n",
+    "Which loop pattern is this?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "86bCY8Bqn6nK"
+   },
+   "outputs": [],
+   "source": [
+    "def count_vowels(text):\n",
+    "    \"\"\"Return the number of vowels in text.\"\"\"\n",
+    "    return 0    # skeleton\n",
+    "\n",
+    "print(count_vowels(\"\") == 0)\n",
+    "print(count_vowels(\"rhythm\") == 0)\n",
+    "print(count_vowels(\"AEIOU\") == 5)\n",
+    "print(count_vowels(\"Programming Fundamentals\") == 7)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "n7tMzssqBETs"
+   },
+   "source": [
+    "# 4 Nested loops\n",
+    "\n",
+    "*(NB04 and NB06)*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "cdK3suBWJ1rb"
+   },
+   "source": [
+    "### Exercise 4. Rolling two dice\n",
+    "\n",
+    "Write `ways_to_roll(total)`, which returns in how many ways two six-sided dice can add up to `total`.\n",
+    "For example, there are 3 ways to get 4: 1 + 3, 2 + 2 and 3 + 1.\n",
+    "\n",
+    "Which loop pattern is this?\n",
+    "\n",
+    "Then: (1) change it for three dice; (2) can you remove the inner loop?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "ddA6b6UGUUiC"
+   },
+   "outputs": [],
+   "source": [
+    "def ways_to_roll(total):\n",
+    "    \"\"\"Return in how many ways two dice can add up to total.\"\"\"\n",
+    "    pass\n",
+    "\n",
+    "print(ways_to_roll(2) == 1)\n",
+    "print(ways_to_roll(4) == 3)\n",
+    "print(ways_to_roll(7) == 6)\n",
+    "print(ways_to_roll(12) == 1)\n",
+    "print(ways_to_roll(13) == 0)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "eNYwJfEx5aOk"
+   },
+   "source": [
+    "### Exercise 5. Repeated characters\n",
+    "\n",
+    "Write `has_repeated(text)`, which returns `True` if some character appears more than once in `text`.\n",
+    "Use two nested loops over the indices, to compare `text[i]` with `text[j]` for every pair of positions `i < j`.\n",
+    "\n",
+    "Which loop pattern is this? Why should the inner loop start at `i + 1`, and not at `0`?\n",
+    "\n",
+    "Then: can you remove the inner loop, using the `in` operator and slices?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "id": "acoFA4sHchHm"
+   },
+   "outputs": [],
+   "source": [
+    "def has_repeated(text):\n",
+    "    \"\"\"Return True if some character appears more than once in text.\"\"\"\n",
+    "    pass\n",
+    "\n",
+    "print(has_repeated(\"\") == False)\n",
+    "print(has_repeated(\"abc\") == False)\n",
+    "print(has_repeated(\"hello\") == True)\n",
+    "print(has_repeated(\"Python\") == False)\n",
+    "print(has_repeated(\"banana\") == True)"
+   ]
+  }
+ ],
+ "metadata": {
+  "colab": {
+   "private_outputs": true,
+   "provenance": []
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.15"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
+}
