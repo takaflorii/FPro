@@ -1,5 +1,6 @@
 nani = int(input())
-
+result = 1+2 < 5
+print(result)
 if nani == 0:
     print(0)
 else:
